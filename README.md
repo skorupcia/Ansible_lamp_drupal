@@ -1,5 +1,5 @@
 # Ansible_lamp_drupal
-Ansible Lamp with Drupal Vagrant configuration
+Ansible Lamp with Drupal Vagrant and Parallels configuration
 
 macOS: Sonoma 14.1.1
 
