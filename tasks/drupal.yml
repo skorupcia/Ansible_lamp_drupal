@@ -1,0 +1,46 @@
+---
+- name: Ensure Drupal directory exists.
+  file: 
+    path: "{{ drupal_core_path }}"
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Enable the drupal site.
+  command: > 
+    a2ensite {{ domain }}.test
+  notify: restart apache
+
+- name: Check if Drupal project already exists.
+  stat: 
+    path: "{{ drupal_core_path }}/composer.json"
+  register: drupal_composer_json
+
+- name: Create Drupal project.
+  composer:
+    command: create-project
+    arguments: drupal/recommended-project "{{ drupal_core_path }}"
+    working_dir: "{{ drupal_core_path }}"
+    no_dev: true
+  become_user: www-data
+  when: not drupal_composer_json.stat.exists
+
+- name: Add drush to the Drupal site with composer
+  composer:
+    command: require
+    arguments: drush/drush:11.*
+    working_dir: "{{ drupal_core_path }}"
+  become_user: www-data
+  when: not drupal_composer_json.stat.exists
+
+- name: Install drupal
+  command: >
+    vendor/bin/drush si -y --site-name="{{ drupal_site_name }}"
+    --account-name=admin
+    --account-pass=admin
+    --db-url=mysql://{{ domain }}:1234@localhost/{{ domain }}
+    --root={{ drupal_core_path }}/web
+    chdir={{ drupal_core_path }}
+    creates={{ drupal_core_path }}/web/sites/default/settings.php
+  notify: restart apache
+  become_user: www-data
