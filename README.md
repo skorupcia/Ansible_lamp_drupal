@@ -8,10 +8,10 @@ Vagrant Box: luminositylabsllc/bento-ubuntu-20.04-arm64
 Parallels: 19.1.1
 
 Installation via GeerlingGuy roles:
-	- Install roles with requiremensts file:
-		$ ansible-galaxy install -r role_play/role_requirements.yml
-	- run the playbook with your inventory file:
-		$ ansible-playbook -i <path to your inventory> role_play/role_playbook.yml
+1. Install roles with requiremensts file:
+  	$ ansible-galaxy install -r role_play/role_requirements.yml
+2. Run the playbook with your inventory file:
+  	$ ansible-playbook -i <path to your inventory> role_play/role_playbook.yml
 
 
 ATTENTION
