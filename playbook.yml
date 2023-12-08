@@ -18,5 +18,4 @@
     - import_tasks: tasks/php.yml
     - import_tasks: tasks/myslq.yml
     - import_tasks: tasks/composer.yml
-    - import_tasks: tasks/drush.yml
     - import_tasks: tasks/drupal.yml
